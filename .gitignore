@@ -16,6 +16,6 @@ Thumbs.db
 npm-debug.log
 
 dist/
-.env
+backend/.env
 *.log
 *.tsbuildinfo
