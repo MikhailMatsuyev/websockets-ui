@@ -1,0 +1,38 @@
+{
+  "name": "battleship-backend",
+  "version": "1.0.0",
+  "description": "Battleship game backend with WebSocket and TypeScript",
+  "main": "dist/app.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node dist/app.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "echo \"No tests specified\" && exit 0",
+    "lint": "echo \"No linter configured\" && exit 0"
+  },
+  "dependencies": {
+    "ws": "^8.14.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.8",
+    "@types/node": "^20.8.0",
+    "typescript": "^5.2.0",
+    "ts-node": "^10.9.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "keywords": [
+    "battleship",
+    "websocket",
+    "game",
+    "multiplayer",
+    "typescript"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
