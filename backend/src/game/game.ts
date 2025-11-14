@@ -15,17 +15,6 @@ export class Game implements IGame {
         this.shipsPlaced = new Set();
     }
 
-    // addShips(playerId: string, shipsData: IShipData[]): void {
-    //     const player = this.players.find(p => p.id === playerId);
-    //     if (!player) {
-    //         throw new Error('Player not found in game');
-    //     }
-    //
-    //     this.validateShips(shipsData);
-    //     player.addShips(shipsData);
-    //     this.shipsPlaced.add(playerId);
-    // }
-
     addShips(playerId: string, shipsData: IShipData[], fromBackend: boolean = false): void {
         const player = this.players.find(p => p.id === playerId);
         if (!player) {
@@ -89,8 +78,6 @@ export class Game implements IGame {
         for (const ship of ships) {
             shipCounts[ship.type] = (shipCounts[ship.type] || 0) + 1;
 
-            console.log(`Validating ship ${ship.type}:`, ship.position);
-
             for (const pos of ship.position) {
                 if (pos.x < 0 || pos.x >= 10 || pos.y < 0 || pos.y >= 10) {
                     const errorMsg = `Ship "${ship.type}" at position (${pos.x}, ${pos.y}) is out of bounds. Valid range: 0-9`;
@@ -100,8 +87,6 @@ export class Game implements IGame {
 
                 const key = `${pos.x},${pos.y}`;
                 if (occupied.has(key)) {
-                    console.error(`Cell (${pos.x}, ${pos.y}) is already occupied! Ships overlap.`);
-                    console.error('All occupied cells so far:', Array.from(occupied));
                     throw new Error('Ships overlap');
                 }
                 occupied.add(key);
@@ -110,11 +95,8 @@ export class Game implements IGame {
 
         if (shipCounts.huge !== 1 || shipCounts.large !== 2 ||
             shipCounts.medium !== 3 || shipCounts.small !== 4) {
-            console.error('Invalid ship counts:', shipCounts);
             throw new Error('Invalid ship configuration');
         }
-
-        console.log('All ships validated successfully!');
     }
 
     isReady(): boolean {
@@ -160,7 +142,6 @@ export class Game implements IGame {
         console.log(`Defender: ${defender.name} (${defender.id})`);
         console.log(`Position: (${x}, ${y})`);
 
-        // Добавляем атаку в список атак атакующего
         attacker.addAttack(x, y);
 
         const result: IAttackResult = {
@@ -184,7 +165,6 @@ export class Game implements IGame {
                 console.log(`💀 SHIP KILLED! Type: ${ship.type}`);
             }
 
-            // Проверяем все ли корабли защитника потоплены (используем атаки АТАКУЮЩЕГО!)
             if (this.areAllShipsSunk(attacker, defender)) {
                 result.gameOver = true;
                 console.log(`🏆 GAME OVER! ${attacker.name} wins!`);
@@ -205,25 +185,16 @@ export class Game implements IGame {
     }
 
     private areAllShipsSunk(attacker: IPlayer, defender: IPlayer): boolean {
-        console.log(`\n=== Checking if all ships sunk ===`);
         console.log(`Defender: ${defender.name} (${defender.id})`);
         console.log(`Defender has ${defender.ships.length} ships`);
         console.log(`Attacker: ${attacker.name} (${attacker.id})`);
         console.log(`Attacker has made ${attacker.attacks.size} attacks`);
-        
-        // Выводим все атаки атакующего
-        console.log(`\nAll attacker's attacks:`);
+
         const attacksList = Array.from(attacker.attacks).sort();
-        console.log(attacksList.join(', '));
         
         let allSunk = true;
         for (let i = 0; i < defender.ships.length; i++) {
             const ship = defender.ships[i];
-            
-            // Выводим позиции корабля
-            console.log(`\nShip #${i + 1} (${ship.type}):`);
-            console.log(`  Positions: ${ship.position.map(p => `(${p.x},${p.y})`).join(', ')}`);
-            
             const sunkPositions = ship.position.filter(pos => {
                 const key = `${pos.x},${pos.y}`;
                 return attacker.attacks.has(key);
