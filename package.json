@@ -1,15 +1,20 @@
-
 {
   "name": "battleship-game",
   "version": "1.0.0",
   "scripts": {
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "build": "cd backend && npm run build && cd ../frontend && npm run build",
-    "start": "cd backend && npm start"
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "http-server frontend -p 8080 -c-1",
+    "build": "cd backend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "http-server frontend -p 8080 -c-1"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^8.2.0",
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
   }
 }
