@@ -2,6 +2,8 @@
 
 Multiplayer Battleship game with WebSocket backend and browser-based frontend.
 
+![Game Screenshot](./screenshot.png)
+
 ## Quick Start
 
 ### Install Dependencies
