@@ -38,7 +38,6 @@ export class BattleshipServer {
     private readonly LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 
     constructor(port: number = 3000) {
-        debugger
         this.port = port;
         this.wss = new WebSocketServer({
             port,
